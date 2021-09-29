@@ -216,17 +216,19 @@ def compute_iou(bbox_1, bbox_2):
     y_top = max(bbox_1[1], bbox_2[1])
     y_bottom = min(bbox_1[3], bbox_2[3])
 
-    # compute intersection area
-    intersection_area = (x_right - x_left) * (y_bottom - y_top)
-
-    # compute area of 2 bboxes
-    bbox_1_area = (bbox_1[2] - bbox_1[0]) * (bbox_1[3] - bbox_1[1])
-    bbox_2_area = (bbox_2[2] - bbox_2[0]) * (bbox_2[3] - bbox_2[1])
-
-    try:
-        # compute iou
-        # might be prevent some case iou < 0 or iou > 1 --> but in chest_xray we don't need
-        iou = intersection_area / float(bbox_1_area + bbox_2_area - intersection_area)
-    except ZeroDivisionError:
+    if (x_left >= x_right) or (y_top >= y_bottom):
         iou = -1
+    else:
+        # compute intersection area
+        intersection_area = (x_right - x_left) * (y_bottom - y_top)
+
+        # compute area of 2 bboxes
+        bbox_1_area = (bbox_1[2] - bbox_1[0]) * (bbox_1[3] - bbox_1[1])
+        bbox_2_area = (bbox_2[2] - bbox_2[0]) * (bbox_2[3] - bbox_2[1])
+        try:
+            # compute iou
+            # might be prevent some case iou < 0 or iou > 1 --> but in chest_xray we don't need
+            iou = intersection_area / float(bbox_1_area + bbox_2_area - intersection_area)
+        except ZeroDivisionError:
+            iou = -1
     return iou
