@@ -215,7 +215,6 @@ def compute_iou(bbox_1, bbox_2):
     x_right = min(bbox_1[2], bbox_2[2])
     y_top = max(bbox_1[1], bbox_2[1])
     y_bottom = min(bbox_1[3], bbox_2[3])
-
     if (x_left >= x_right) or (y_top >= y_bottom):
         iou = -1
     else:
