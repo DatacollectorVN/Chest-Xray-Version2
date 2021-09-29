@@ -1,0 +1,11 @@
+IMG_DIR: "CHEST-XRAY/train/train"
+ANNOTATION_FULL_FILE : "CHEST-XRAY/chest_xray_standard_add.csv"
+CLASSES_NAME : ["Aortic enlargement", "Atelectasis", "Calcification", "Cardiomegaly", 
+                "Consolidation", "ILD", "Infiltration", "Lung Opacity", "Nodule/Mass",
+                "Other lesion", "Pleural effusion", "Pleural thickening", "Pneumothorax", 
+                "Pulmonary fibrosis"]
+COLOR : [[59, 238, 119], [222, 21, 229], [94, 49, 164], [206, 221, 133], [117, 75, 3],
+         [210, 224, 119], [211, 176, 166], [63, 7, 197], [102, 65, 77], [194, 134, 175],
+         [209, 219, 50], [255, 44, 47], [89, 125, 149], [110, 27, 100]]
+IOU_THR_NMS : 0.5
+THICKNESS : 5
