@@ -5,6 +5,7 @@ import gc
 import torch
 import sys
 from detectron2.data.datasets import register_coco_instances
+from detectron2.evaluation import COCOEvaluator, inference_on_dataset
 from detectron2.engine import DefaultTrainer, DefaultPredictor
 from detectron2.data import DatasetCatalog, MetadataCatalog, build_detection_train_loader, DatasetMapper
 from detectron2.data import build_detection_test_loader
@@ -15,11 +16,11 @@ FILE_TRAIN_CONFIG = os.path.join("config", "train.yaml")
 with open(FILE_TRAIN_CONFIG) as file:
     params = yaml.load(file, Loader = yaml.FullLoader)
 
-def setup_config_train(params):
+def setup_config_test(params):
     #https://detectron2.readthedocs.io/en/latest/tutorials/datasets.html#update-the-config-for-new-datasets
     cfg = get_cfg()
     cfg.merge_from_file(model_zoo.get_config_file(params["MODEL"]))
-    cfg.MODEL.WEIGHTS = model_zoo.get_checkpoint_url(params["MODEL"])
+    cfg.MODEL.WEIGHTS = os.path.join(cfg.OUTPUT_DIR, "model_final.pth")
     cfg.MODEL.ROI_HEADS.BATCH_SIZE_PER_IMAGE = params["BATCH_SIZE_PER_IMAGE"] 
     cfg.MODEL.ROI_HEADS.NUM_CLASSES = params["NUM_CLASSES"] 
     if "retina" in params["MODEL"]:
@@ -28,12 +29,6 @@ def setup_config_train(params):
     cfg.DATASETS.TEST = (params["NAME_REGISTER"] + "val", )
     cfg.DATALOADER.NUM_WORKERS = params["NUM_WORKERS"]
     cfg.SOLVER.IMS_PER_BATCH = params["IMS_PER_BATCH"]
-    cfg.SOLVER.BASE_LR = params["BASE_LR"]
-    cfg.SOLVER.WARMUP_ITERS = params["WARMUP_ITERS"]
-    cfg.SOLVER.MAX_ITER = params["MAX_ITER"]
-    cfg.SOLVER.STEPS = (params["STEPS_MIN"], params["STEPS_MAX"])
-    cfg.SOLVER.GAMMA = params["GAMMA"]
-    cfg.SOLVER.LR_SCHEDULER_NAME = params["LR_SCHEDULER_NAME"]
     return cfg
 
 def main():
@@ -41,13 +36,16 @@ def main():
                             params["ANNOTATION_TRAIN_JSON_FILE"], params["IMG_DIR"])
     register_coco_instances(params["NAME_REGISTER"] + "val", {}, 
                             params["ANNOTATION_VAL_JSON_FILE"], params["IMG_DIR"])
-    meta_train = MetadataCatalog.get(params["NAME_REGISTER"] + "train")
-    dicts_train = DatasetCatalog.get(params["NAME_REGISTER"] + "train")
-    cfg = setup_config_train(params)
+    cfg = setup_config_test(params)
     os.makedirs(cfg.OUTPUT_DIR, exist_ok = True)
     trainer = DefaultTrainer(cfg)
-    trainer.resume_or_load(resume = False)
-    trainer.train()
+    trainer.resume_or_load(resume = True)
+    predictor = DefaultPredictor(cfg)
+    meta_test = MetadataCatalog.get(params["NAME_REGISTER"] + "val")
+    dicts_test = DatasetCatalog.get(params["NAME_REGISTER"] + "val")
+    evaluator = COCOEvaluator(params["NAME_REGISTER"] + "val", cfg, False, output_dir="./output/")
+    test_loader = build_detection_test_loader(cfg, params["NAME_REGISTER"] + "val")
+    inference_on_dataset(trainer.model, test_loader, evaluator)
     
 if __name__ == "__main__":
     try:

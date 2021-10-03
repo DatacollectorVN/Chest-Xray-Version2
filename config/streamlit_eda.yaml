@@ -1,9 +1,15 @@
-IMG_DIR: "../CHEST-XRAY/train/train"
+IMG_DIR_ROOT: "../CHEST-XRAY/train/train"
+IMG_DIR: "../CHEST-XRAY/imgs"
 ANNOTATION_ORIGINAL_FILE : "../CHEST-XRAY/train_downsampled.csv"
 ANNOTATION_FULL_FILE : "../CHEST-XRAY/chest_xray_positive_full_labels.csv"
 ANNOTATION_STANDARD_ADD_FILE : "../CHEST-XRAY/chest_xray_standard_add.csv"
 ANNOTATION_NMS_FILE : "../CHEST-XRAY/chest_xray_positive_nms.csv"
 ANNOTATION_WBF_FILE : "../CHEST-XRAY/chest_xray_positive_wbf.csv"
+ANNOTATION_WBF_TRAIN_FILE : "../CHEST-XRAY/chest_xray_positive_wbf_train.csv"
+ANNOTATION_WBF_VAL_FILE : "../CHEST-XRAY/chest_xray_positive_wbf_val.csv"
+ANNOTATION_WBF_TRAIN_JSON_FILE : "../CHEST-XRAY/chest_xray_positive_wbf_train.json"
+ANNOTATION_WBF_VAL_JSON_FILE : "../CHEST-XRAY/chest_xray_positive_wbf_val.json"
+
 CLASSES_NAME : ["Aortic enlargement", "Atelectasis", "Calcification", "Cardiomegaly", 
                 "Consolidation", "ILD", "Infiltration", "Lung Opacity", "Nodule/Mass",
                 "Other lesion", "Pleural effusion", "Pleural thickening", "Pneumothorax", 
@@ -12,7 +18,21 @@ HEATMAP_SIZE : [500, 400]
 COLOR : [[59, 238, 119], [222, 21, 229], [94, 49, 164], [206, 221, 133], [117, 75, 3],
          [210, 224, 119], [211, 176, 166], [63, 7, 197], [102, 65, 77], [194, 134, 175],
          [209, 219, 50], [255, 44, 47], [89, 125, 149], [110, 27, 100]]
-IOU_THR_NMS : 0.5
+IOU_THR_NMS : 0.4
 IOU_THR_WBF : 0.4
 SKIP_BOX_THR_WBF : 0.21
 THICKNESS : 5
+INFO_DESCRIPTION : "Chest-Xray-Standard-Add"
+INFO_URL : "https://github.com/DatacollectorVN/Chest-Xray-Version2"
+INFO_VERSION : "2.0"
+INFO_YEAR : 2021
+INFO_CONTRIBUTOR : "Kos Nhan"
+LIN_URL : "https://vinbigdata.org/en/"
+LIN_ID : 0
+LIN_NAME : "VinBigData"
+IMGS_LIN : 0
+IMGS_COCO_URL : ""
+IMG_DATE_CAPTURED : "2021"
+IMG_FLICKR_URL : ""
+VAL_RATIO : 0.2
+SEED : 42

@@ -12,7 +12,7 @@ FILE_TRAIN_CONFIG = os.path.join("..", "config", "streamlit_eda.yaml")
 def main():
     with open(FILE_TRAIN_CONFIG) as file:
         params = yaml.load(file, Loader = yaml.FullLoader)
-    df = pd.read_csv(os.path.join(params["ANNOTATION_FULL_FILE"]))
+    df = pd.read_csv(os.path.join(params["ANNOTATION_STANDARD_ADD_FILE"]))
     img_ids = df["image_file"].unique().tolist()
     for i, img_id in tqdm(enumerate(img_ids), total = len(img_ids)):
         bboxes_nms, classes_name_nms = xray_WBF(df, img_id, params)

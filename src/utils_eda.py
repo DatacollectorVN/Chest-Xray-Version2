@@ -1,9 +1,14 @@
 import numpy as np
 import cv2
+import matplotlib.pyplot as plt
 import streamlit as st
-import os 
+import os
+import pandas as pd
+from tqdm import tqdm 
 from ensemble_boxes import nms, weighted_boxes_fusion
 from collections import Counter
+from detectron2.structures import BoxMode
+import sys
 
 def draw_bbox_rad(img, img_bboxes, img_classes_name, classes_name, rad_id, color, thickness=5):
     img_draw = img.copy()
@@ -56,6 +61,14 @@ def filter_classes_name(df, classes_name_lst):
             str_condition += f"class_name == '{class_name}'"
     df = df[df.eval(str_condition)]
     return df
+
+def filter_img_ids(df, img_ids):
+    for i, img_id in tqdm(enumerate(img_ids), total = len(img_ids)):
+        if i == 0:
+            df_final = df[df["image_file"] == img_id]
+        else:
+            df_final = pd.concat([df_final, df[df["image_file"] == img_id]])
+    return df_final
 
 def mode_index(df, img_ids, start, stop, params):
     if (start ==0) and (stop ==0):
@@ -231,3 +244,57 @@ def compute_iou(bbox_1, bbox_2):
         except ZeroDivisionError:
             iou = -1
     return iou
+
+def get_chestxray_dicts(df, class_name, img_dir):
+    COCO_detectron2_list = [] # list(dict())
+    img_ids = df["image_file"].unique().tolist()
+    for i, img_id in tqdm(enumerate(img_ids), total = len(img_dir)):
+        img_path = os.path.join(img_dir, img_id)        
+        assert len(df[df["image_file"] == img_id]["image_width"].unique()) == 1, "Wrong dataset"
+        assert len(df[df["image_file"] == img_id]["image_height"].unique()) == 1, "Wrong dataset"
+        width = df[df["image_file"] == img_id]["image_width"].unique()[0]
+        height = df[df["image_file"] == img_id]["image_height"].unique()[0]
+        id_ = i + 1
+        img_classes_name = df[df["image_file"] == img_id]["class_name"].values.tolist()
+        img_bboxes = df[df["image_file"] == img_id][["x_min", "y_min", "x_max", "y_max"]].values
+        x_min = img_bboxes[:, 0]
+        y_min = img_bboxes[:, 1]
+        x_max = img_bboxes[:, 2]
+        y_max = img_bboxes[:, 3]
+        annotaions = [] # list(dict())
+        for j, img_class_name in enumerate(img_classes_name):
+            annotaions_dct = {"bbox" : [x_min[j], y_min[j], x_max[j], y_max[j]],
+                              "bbox_mode" : BoxMode.XYXY_ABS,
+                              "category_id" : class_name.index(img_class_name)
+                             }
+            annotaions.append(annotaions_dct)
+        COCO_detectron2_dct = {"image_id" : id_,
+                               "file_name" : img_path,
+                               "height" : height,
+                               "width" : width,
+                               "annotations" : annotaions
+                              }
+        COCO_detectron2_list.append(COCO_detectron2_dct)
+    return COCO_detectron2_list
+
+def plot_multi_imgs(imgs, # 1 batchs contain multiple images
+                    cols = 2, size = 10, # size of figure
+                    is_rgb = True, title = None, cmap = "gray",
+                    img_size = None): # set img_size if you want (width, height)
+    rows = (len(imgs) // cols) + 1
+    fig = plt.figure(figsize = (size *  cols, size * rows))
+    for i , img in enumerate(imgs):
+        if img_size is not None:
+            img = cv2.resize(img, img_size)
+        fig.add_subplot(rows, cols, i + 1) # add subplot int the the figure
+        plt.imshow(img, cmap = cmap) # plot individual image
+    plt.suptitle(title)
+
+def convert_bboxes_xyxy_to_xywh_COCO(bboxes_xyxy):
+    bboxes_xyxy = np.array(bboxes_xyxy)
+    x = np.expand_dims(bboxes_xyxy[:, 0], 1)
+    y = np.expand_dims(bboxes_xyxy[:, 1], 1)
+    w = np.expand_dims(bboxes_xyxy[:, 2] - bboxes_xyxy[:, 0], 1)
+    h = np.expand_dims(bboxes_xyxy[:, 3] - bboxes_xyxy[:, 1], 1)
+    bboxes_xywh = np.hstack((x, y, w, h)).astype(np.float32).tolist()
+    return bboxes_xywh

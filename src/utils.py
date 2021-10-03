@@ -1,5 +1,7 @@
 import numpy as np
 import pandas as pd
+from detectron2.config import get_cfg
+from detectron2 import model_zoo
 import matplotlib.pyplot as plt
 import cv2
 from PIL import Image
@@ -9,9 +11,9 @@ from detectron2.structures import BoxMode
 import os
 
 def plot_multi_imgs(imgs, # 1 batchs contain multiple images
-                    cols = 2, size = 10, # size of figure
-                    is_rgb = True, title = None, cmap = "gray", save = False,
-                    img_size = None): # set img_size if you want (width, height)
+                    cols=2, size=10, # size of figure
+                    is_rgb=True, title=None, cmap="gray", save=False,
+                    img_size=None): # set img_size if you want (width, height)
     rows = (len(imgs) // cols) + 1
     fig = plt.figure(figsize = (size *  cols, size * rows))
     for i , img in enumerate(imgs):
@@ -31,7 +33,6 @@ def draw_bbox(img, img_bboxes, img_classes_name, classes_name, color, thickness=
                                  pt2 = (int(img_bbox[2]), int(img_bbox[3])), 
                                  color = color[classes_name.index(img_classes_name[i])],
                                  thickness = thickness) 
-        
         cv2.putText(img_draw,
                     text = img_classes_name[i].upper(),
                     org = (int(img_bbox[0]), int(img_bbox[1]) - 5),
@@ -74,7 +75,6 @@ def xray_NMS(df, img_id, params):
             bboxes_lst.append(bboxes)
             scores_lst.append(scores_)
             weights.append(1)
-
     if classes_id_lst == []:
         boxes_nms = []
         classes_ids_nms = []
@@ -145,3 +145,55 @@ def x_ray_train_val_split(df, val_ratio):
     train_standard = ["ec513a0af055499f1b188cc6a9175ee1.jpg", 
                       "f9f7feefb4bac748ff7ad313e4a78906.jpg"]
     val_standard = ["43e11813c6d7bcef779a1a287edc02c4.jpg"]
+
+def get_chestxray_dicts(df, class_name, img_dir):
+    COCO_detectron2_list = [] # list(dict())
+    img_paths = []
+    img_ids = df["image_file"].unique().tolist()
+    for i, img_id in enumerate(img_ids):
+        img_path = os.path.join(img_dir, img_id)
+        img_paths.append(img_paths)
+        img = Image.open(img_path)
+        width, height = img.size
+        id_ = i + 1
+        img_classes_name = df[df["image_file"] == img_id]["class_name"].values.tolist()
+        img_bboxes = df[df["image_file"] == img_id][["x_min", "y_min", "x_max", "y_max"]].values
+        x_min = img_bboxes[:, 0]
+        y_min = img_bboxes[:, 1]
+        x_max = img_bboxes[:, 2]
+        y_max = img_bboxes[:, 3]
+        annotaions = [] # list(dict())
+        for j, img_class_name in enumerate(img_classes_name):
+            annotaions_dct = {"bbox" : [x_min[j], y_min[j], x_max[j], y_max[j]],
+                              "bbox_mode" : BoxMode.XYXY_ABS,
+                              "category_id" : class_name.index(img_class_name)
+                             }
+            annotaions.append(annotaions_dct)
+        COCO_detectron2_dct = {"image_id" : id_,
+                               "file_name" : img_path,
+                               "height" : height,
+                               "width" : width,
+                               "annotations" : annotaions
+                              }
+        COCO_detectron2_list.append(COCO_detectron2_dct)
+    return COCO_detectron2_list
+
+def setup_config_train(params):
+    cfg = get_cfg()
+    cfg.merge_from_file(model_zoo.get_config_file(params["MODEL"]))
+    cfg.MODEL.WEIGHTS = model_zoo.get_checkpoint_url(params["MODEL"])
+    cfg.MODEL.ROI_HEADS.BATCH_SIZE_PER_IMAGE = params["BATCH_SIZE_PER_IMAGE"] 
+    cfg.MODEL.ROI_HEADS.NUM_CLASSES = 14 #https://detectron2.readthedocs.io/en/latest/tutorials/datasets.html#update-the-config-for-new-datasets
+    #cfg.MODEL.RETINANET.NUM_CLASSES = 14
+    cfg.DATASETS.TRAIN = (params["NAME_REGISTER"] + "train", )
+    cfg.DATASETS.TEST = (params["NAME_REGISTER"] + "val", )
+    cfg.DATALOADER.NUM_WORKERS = params["NUM_WORKERS"]
+    cfg.SOLVER.IMS_PER_BATCH = params["IMS_PER_BATCH"]
+    cfg.SOLVER.BASE_LR = params["BASE_LR"]
+    cfg.SOLVER.WARMUP_ITERS = params["WARMUP_ITERS"]
+    cfg.SOLVER.MAX_ITER = params["MAX_ITER"]
+    cfg.SOLVER.STEPS = (params["STEPS_MIN"], params["STEPS_MAX"])
+    cfg.SOLVER.GAMMA = params["GAMMA"]
+    #cfg.TEST.EVAL_PERIOD = params["EVAL_PERIOD"]
+    cfg.SOLVER.LR_SCHEDULER_NAME = params["LR_SCHEDULER_NAME"]
+    return cfg
