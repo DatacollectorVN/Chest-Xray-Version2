@@ -5,11 +5,17 @@ import gc
 import torch
 import sys
 from detectron2.data.datasets import register_coco_instances
+from detectron2.modeling import build_model
 from detectron2.engine import DefaultTrainer, DefaultPredictor
 from detectron2.data import DatasetCatalog, MetadataCatalog, build_detection_train_loader, DatasetMapper
 from detectron2.data import build_detection_test_loader
 from detectron2.config import get_cfg
 from detectron2 import model_zoo
+from src.custom_trainining_loop import *
+from detectron2.utils.logger import setup_logger
+setup_logger() # enable the logger. https://github.com/facebookresearch/detectron2/issues/144
+import logging
+logger = logging.getLogger("detectron2")
 
 FILE_TRAIN_CONFIG = os.path.join("config", "train.yaml")
 with open(FILE_TRAIN_CONFIG) as file:
@@ -34,6 +40,8 @@ def setup_config_train(params):
     cfg.SOLVER.STEPS = (params["STEPS_MIN"], params["STEPS_MAX"])
     cfg.SOLVER.GAMMA = params["GAMMA"]
     cfg.SOLVER.LR_SCHEDULER_NAME = params["LR_SCHEDULER_NAME"]
+    cfg.INPUT.RANDOM_FLIP = "none"
+    cfg.TEST.EVAL_PERIOD = 40
     return cfg
 
 def main():
@@ -41,13 +49,10 @@ def main():
                             params["ANNOTATION_TRAIN_JSON_FILE"], params["IMG_DIR"])
     register_coco_instances(params["NAME_REGISTER"] + "val", {}, 
                             params["ANNOTATION_VAL_JSON_FILE"], params["IMG_DIR"])
-    meta_train = MetadataCatalog.get(params["NAME_REGISTER"] + "train")
-    dicts_train = DatasetCatalog.get(params["NAME_REGISTER"] + "train")
     cfg = setup_config_train(params)
     os.makedirs(cfg.OUTPUT_DIR, exist_ok = True)
-    trainer = DefaultTrainer(cfg)
-    trainer.resume_or_load(resume = False)
-    trainer.train()
+    model = build_model(cfg) 
+    do_train(cfg, model, False)
     
 if __name__ == "__main__":
     try:

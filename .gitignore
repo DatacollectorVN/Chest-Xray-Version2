@@ -4,3 +4,5 @@ nms-wbf-visualize/outputs
 X-ray-Problems/
 eda/*.ipynb
 CHEST-XRAY/
+src/__pycache__
+output/

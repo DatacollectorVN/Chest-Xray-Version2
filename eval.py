@@ -11,7 +11,9 @@ from detectron2.data import DatasetCatalog, MetadataCatalog, build_detection_tra
 from detectron2.data import build_detection_test_loader
 from detectron2.config import get_cfg
 from detectron2 import model_zoo
+import logging
 
+logger = logging.getLogger("detectron2")
 FILE_TRAIN_CONFIG = os.path.join("config", "train.yaml")
 with open(FILE_TRAIN_CONFIG) as file:
     params = yaml.load(file, Loader = yaml.FullLoader)
@@ -20,7 +22,7 @@ def setup_config_test(params):
     #https://detectron2.readthedocs.io/en/latest/tutorials/datasets.html#update-the-config-for-new-datasets
     cfg = get_cfg()
     cfg.merge_from_file(model_zoo.get_config_file(params["MODEL"]))
-    cfg.MODEL.WEIGHTS = os.path.join(cfg.OUTPUT_DIR, "model_final.pth")
+    cfg.MODEL.WEIGHTS = os.path.join(cfg.OUTPUT_DIR, "best_model.pth")
     cfg.MODEL.ROI_HEADS.BATCH_SIZE_PER_IMAGE = params["BATCH_SIZE_PER_IMAGE"] 
     cfg.MODEL.ROI_HEADS.NUM_CLASSES = params["NUM_CLASSES"] 
     if "retina" in params["MODEL"]:

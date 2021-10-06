@@ -178,22 +178,3 @@ def get_chestxray_dicts(df, class_name, img_dir):
         COCO_detectron2_list.append(COCO_detectron2_dct)
     return COCO_detectron2_list
 
-def setup_config_train(params):
-    cfg = get_cfg()
-    cfg.merge_from_file(model_zoo.get_config_file(params["MODEL"]))
-    cfg.MODEL.WEIGHTS = model_zoo.get_checkpoint_url(params["MODEL"])
-    cfg.MODEL.ROI_HEADS.BATCH_SIZE_PER_IMAGE = params["BATCH_SIZE_PER_IMAGE"] 
-    cfg.MODEL.ROI_HEADS.NUM_CLASSES = 14 #https://detectron2.readthedocs.io/en/latest/tutorials/datasets.html#update-the-config-for-new-datasets
-    #cfg.MODEL.RETINANET.NUM_CLASSES = 14
-    cfg.DATASETS.TRAIN = (params["NAME_REGISTER"] + "train", )
-    cfg.DATASETS.TEST = (params["NAME_REGISTER"] + "val", )
-    cfg.DATALOADER.NUM_WORKERS = params["NUM_WORKERS"]
-    cfg.SOLVER.IMS_PER_BATCH = params["IMS_PER_BATCH"]
-    cfg.SOLVER.BASE_LR = params["BASE_LR"]
-    cfg.SOLVER.WARMUP_ITERS = params["WARMUP_ITERS"]
-    cfg.SOLVER.MAX_ITER = params["MAX_ITER"]
-    cfg.SOLVER.STEPS = (params["STEPS_MIN"], params["STEPS_MAX"])
-    cfg.SOLVER.GAMMA = params["GAMMA"]
-    #cfg.TEST.EVAL_PERIOD = params["EVAL_PERIOD"]
-    cfg.SOLVER.LR_SCHEDULER_NAME = params["LR_SCHEDULER_NAME"]
-    return cfg

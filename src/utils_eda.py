@@ -77,7 +77,7 @@ def mode_index(df, img_ids, start, stop, params):
         st.write("The value of start index must smaller than stop index")
     else:
         for i, img_id in enumerate(img_ids[start :stop]):
-            img = cv2.imread(os.path.join(params["IMG_DIR"], img_id))
+            img = cv2.imread(os.path.join(params["IMG_DIR_ROOT"], img_id))
             img = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
             df_img_id = df[df["image_file"] == img_id]
             bboxes = df_img_id[["x_min", "y_min", "x_max", "y_max"]].values.tolist()
@@ -94,7 +94,7 @@ def mode_index(df, img_ids, start, stop, params):
             st.image(img)
 
 def mode_file_name(df, img_file_name, params):
-    img = cv2.imread(os.path.join(params["IMG_DIR"], img_file_name))
+    img = cv2.imread(os.path.join(params["IMG_DIR_ROOT"], img_file_name))
     img = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
     df_img_id = df[df["image_file"] == img_file_name]
     bboxes = df_img_id[["x_min", "y_min", "x_max", "y_max"]].values.tolist()
@@ -141,7 +141,7 @@ def draw_heatmap(df, class_name, heatmap_size):
     return heatmap, num_bboxes, mean_bboxes_area_norm
 
 def nms_wbf(df, img_id, params, technique, iou_thr, skip_box_thr):
-    img = cv2.imread(os.path.join(params["IMG_DIR"], img_id))
+    img = cv2.imread(os.path.join(params["IMG_DIR_ROOT"], img_id))
     img = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
     height, width = img.shape[:2]
     img_annotations = df[df["image_file"] == img_id]
