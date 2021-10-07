@@ -38,7 +38,7 @@ def get_evaluator(cfg, dataset_name, output_folder=None):
     if output_folder is None:
         output_folder = os.path.join(cfg.OUTPUT_DIR, "inference")
     evaluator_list = []
-    evaluator_type = MetadataCatalog.get(dataset_name).evaluator_type
+    evaluator_type = MetadataCatalog.get(dataset_name).evaluator_type 
     if evaluator_type in ["sem_seg", "coco_panoptic_seg"]:
         evaluator_list.append(
             SemSegEvaluator(

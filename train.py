@@ -1,4 +1,3 @@
-# https://viblo.asia/p/state-of-the-art-instance-segmentation-chi-vai-dong-code-voi-detectron2-vyDZO7W9Zwj
 import os
 import yaml
 import gc
@@ -6,9 +5,6 @@ import torch
 import sys
 from detectron2.data.datasets import register_coco_instances
 from detectron2.modeling import build_model
-from detectron2.engine import DefaultTrainer, DefaultPredictor
-from detectron2.data import DatasetCatalog, MetadataCatalog, build_detection_train_loader, DatasetMapper
-from detectron2.data import build_detection_test_loader
 from detectron2.config import get_cfg
 from detectron2 import model_zoo
 from src.custom_trainining_loop import *
@@ -41,7 +37,7 @@ def setup_config_train(params):
     cfg.SOLVER.GAMMA = params["GAMMA"]
     cfg.SOLVER.LR_SCHEDULER_NAME = params["LR_SCHEDULER_NAME"]
     cfg.INPUT.RANDOM_FLIP = "none"
-    cfg.TEST.EVAL_PERIOD = 40
+    cfg.TEST.EVAL_PERIOD = params["EVAL_PERIOD"]
     return cfg
 
 def main():
