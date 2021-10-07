@@ -89,7 +89,6 @@ def do_test(cfg, model):
         results = list(results.values())[0]
     return results
 
-
 def do_train(cfg, model, resume=False):
     model.train()
     optimizer = build_optimizer(cfg, model)
