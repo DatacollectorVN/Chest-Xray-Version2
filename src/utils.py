@@ -177,4 +177,3 @@ def get_chestxray_dicts(df, class_name, img_dir):
                               }
         COCO_detectron2_list.append(COCO_detectron2_dct)
     return COCO_detectron2_list
-

@@ -7,7 +7,7 @@ CLASSES_NAME : ["Aortic enlargement", "Atelectasis", "Calcification", "Cardiomeg
                 "Other lesion", "Pleural effusion", "Pleural thickening", "Pneumothorax", 
                 "Pulmonary fibrosis"]
 MODEL : "COCO-Detection/faster_rcnn_R_50_FPN_3x.yaml"
-TRANSFERLEARNING : "best_model.pth"
+TRANSFERLEARNING : "model_final.pth"
 NUM_CLASSES : 14
 COLOR : [[59, 238, 119], [222, 21, 229], [94, 49, 164], [206, 221, 133], [117, 75, 3],
          [210, 224, 119], [211, 176, 166], [63, 7, 197], [102, 65, 77], [194, 134, 175],

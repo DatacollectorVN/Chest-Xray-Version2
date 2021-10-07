@@ -6,7 +6,7 @@ import sys
 from detectron2.data.datasets import register_coco_instances
 from detectron2.evaluation import COCOEvaluator, inference_on_dataset
 from detectron2.modeling import build_model
-from detectron2.engine import DefaultTrainer, DefaultPredictor
+from detectron2.engine import DefaultTrainer
 from detectron2.config import get_cfg
 from detectron2 import model_zoo
 from src.custom_trainining_loop import *
@@ -20,7 +20,6 @@ with open(FILE_TRAIN_CONFIG) as file:
     params = yaml.load(file, Loader = yaml.FullLoader)
 
 def setup_config_eval(params):
-    #https://detectron2.readthedocs.io/en/latest/tutorials/datasets.html#update-the-config-for-new-datasets
     cfg = get_cfg()
     cfg.merge_from_file(model_zoo.get_config_file(params["MODEL"]))
     cfg.MODEL.WEIGHTS = os.path.join(cfg.OUTPUT_DIR, params["TRANSFERLEARNING"])
@@ -41,8 +40,15 @@ def main():
     cfg = setup_config_eval(params)
     logger.info(f"Use model {cfg.MODEL.WEIGHTS}")
     os.makedirs(cfg.OUTPUT_DIR, exist_ok = True)
+    ''' ERROR: mAP = 0 for all classes
     model = build_model(cfg)
     do_test(cfg, model)
+    '''
+    trainer = DefaultTrainer(cfg)
+    trainer.resume_or_load(True) 
+    evaluator = COCOEvaluator(params["NAME_REGISTER"] + "val", cfg, False, output_dir="./output/")
+    test_loader = build_detection_test_loader(cfg, params["NAME_REGISTER"] + "val")
+    inference_on_dataset(trainer.model, test_loader, evaluator)
     
 if __name__ == "__main__":
     try:
