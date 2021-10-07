@@ -1,0 +1,17 @@
+IMG_DIR: "CHEST-XRAY/imgs"
+ANNOTATION_STANDARD_ADD_FILE : "CHEST-XRAY/chest_xray_positive_wbf.csv"
+ANNOTATION_TRAIN_JSON_FILE : "CHEST-XRAY/chest_xray_positive_wbf_train.json"
+ANNOTATION_VAL_JSON_FILE : "CHEST-XRAY/chest_xray_positive_wbf_val.json"
+CLASSES_NAME : ["Aortic enlargement", "Atelectasis", "Calcification", "Cardiomegaly", 
+                "Consolidation", "ILD", "Infiltration", "Lung Opacity", "Nodule/Mass",
+                "Other lesion", "Pleural effusion", "Pleural thickening", "Pneumothorax", 
+                "Pulmonary fibrosis"]
+MODEL : "COCO-Detection/faster_rcnn_R_50_FPN_3x.yaml"
+TRANSFERLEARNING : "best_model.pth"
+NUM_CLASSES : 14
+COLOR : [[59, 238, 119], [222, 21, 229], [94, 49, 164], [206, 221, 133], [117, 75, 3],
+         [210, 224, 119], [211, 176, 166], [63, 7, 197], [102, 65, 77], [194, 134, 175],
+         [209, 219, 50], [255, 44, 47], [89, 125, 149], [110, 27, 100]]
+NAME_REGISTER : "chestxray_"
+NUM_WORKERS : 0
+SCORE_THRESH_TEST : 0.5

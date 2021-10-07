@@ -15,7 +15,7 @@ setup_logger()
 import logging
 logger = logging.getLogger("detectron2")
 
-FILE_TRAIN_CONFIG = os.path.join("config", "train.yaml")
+FILE_TRAIN_CONFIG = os.path.join("config", "inference.yaml")
 with open(FILE_TRAIN_CONFIG) as file:
     params = yaml.load(file, Loader = yaml.FullLoader)
 
@@ -23,8 +23,8 @@ def setup_config_eval(params):
     #https://detectron2.readthedocs.io/en/latest/tutorials/datasets.html#update-the-config-for-new-datasets
     cfg = get_cfg()
     cfg.merge_from_file(model_zoo.get_config_file(params["MODEL"]))
-    cfg.MODEL.WEIGHTS = os.path.join(cfg.OUTPUT_DIR, "best_model.pth")
-    cfg.MODEL.ROI_HEADS.SCORE_THRESH_TEST = 0.5
+    cfg.MODEL.WEIGHTS = os.path.join(cfg.OUTPUT_DIR, params["TRANSFERLEARNING"])
+    cfg.MODEL.ROI_HEADS.SCORE_THRESH_TEST = params["SCORE_THRESH_TEST"]
     cfg.MODEL.ROI_HEADS.NUM_CLASSES = params["NUM_CLASSES"] 
     if "retina" in params["MODEL"]:
         cfg.MODEL.RETINANET.NUM_CLASSES = params["NUM_CLASSES"]

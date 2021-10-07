@@ -9,7 +9,6 @@ ANNOTATION_WBF_TRAIN_FILE : "../CHEST-XRAY/chest_xray_positive_wbf_train.csv"
 ANNOTATION_WBF_VAL_FILE : "../CHEST-XRAY/chest_xray_positive_wbf_val.csv"
 ANNOTATION_WBF_TRAIN_JSON_FILE : "../CHEST-XRAY/chest_xray_positive_wbf_train.json"
 ANNOTATION_WBF_VAL_JSON_FILE : "../CHEST-XRAY/chest_xray_positive_wbf_val.json"
-
 CLASSES_NAME : ["Aortic enlargement", "Atelectasis", "Calcification", "Cardiomegaly", 
                 "Consolidation", "ILD", "Infiltration", "Lung Opacity", "Nodule/Mass",
                 "Other lesion", "Pleural effusion", "Pleural thickening", "Pneumothorax", 
