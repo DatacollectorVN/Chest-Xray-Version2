@@ -1,14 +1,10 @@
-IMG_DIR_ROOT: "../CHEST-XRAY/train/train"
-IMG_DIR: "../CHEST-XRAY/imgs"
-ANNOTATION_ORIGINAL_FILE : "../CHEST-XRAY/train_downsampled.csv"
-ANNOTATION_FULL_FILE : "../CHEST-XRAY/chest_xray_positive_full_labels.csv"
-ANNOTATION_STANDARD_ADD_FILE : "../CHEST-XRAY/chest_xray_standard_add.csv"
-ANNOTATION_NMS_FILE : "../CHEST-XRAY/chest_xray_positive_nms.csv"
-ANNOTATION_WBF_FILE : "../CHEST-XRAY/chest_xray_positive_wbf.csv"
-ANNOTATION_WBF_TRAIN_FILE : "../CHEST-XRAY/chest_xray_positive_wbf_train.csv"
-ANNOTATION_WBF_VAL_FILE : "../CHEST-XRAY/chest_xray_positive_wbf_val.csv"
-ANNOTATION_WBF_TRAIN_JSON_FILE : "../CHEST-XRAY/chest_xray_positive_wbf_train.json"
-ANNOTATION_WBF_VAL_JSON_FILE : "../CHEST-XRAY/chest_xray_positive_wbf_val.json"
+IMG_DIR: "../CHEST-XRAY/non-aug/imgs/"
+ANNOTATIONS_FULL: "../CHEST-XRAY/non-aug/chest_xray_positive_wbf.csv"
+ANNOTATIONS_TRAIN: "../CHEST-XRAY/non-aug/chest_xray_positive_wbf_train.csv"
+ANNOTATIONS_TRAIN_JSON : "../CHEST-XRAY/non-aug/chest_xray_positive_wbf_train.json"
+ANNOTATIONS_VAL: "../CHEST-XRAY/non-aug/chest_xray_positive_wbf_val.csv"
+ANNOTATIONS_VAL_JSON : "../CHEST-XRAY/non-aug/chest_xray_positive_wbf_val.json"
+ANNOTATIONS_PREPROCESS_BEFORE_WBF: "../CHEST-XRAY/non-aug/chest_xray_standard_add.csv"
 CLASSES_NAME : ["Aortic enlargement", "Atelectasis", "Calcification", "Cardiomegaly", 
                 "Consolidation", "ILD", "Infiltration", "Lung Opacity", "Nodule/Mass",
                 "Other lesion", "Pleural effusion", "Pleural thickening", "Pneumothorax", 

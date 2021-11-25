@@ -35,7 +35,6 @@ def main():
                                 scale = 1)
         out = visualizer.draw_dataset_dict(dic = sample) # return VisImage object
         viz_imgs.append(out.get_image()[:, :, ::-1])
-    
     plot_multi_imgs(viz_imgs, cols = 2, size = 20)
     plt.show()
 

@@ -6,7 +6,7 @@ import sys
 sys.path.insert(1, "../src")
 from utils_eda import *
 
-FILE_TRAIN_CONFIG = os.path.join("..", "config", "streamlit_eda.yaml")
+FILE_TRAIN_CONFIG = os.path.join("..", "config", "eda_original.yaml")
 RAD_LST = [f"R{i}" for i in range(1, 18)]
 with open(FILE_TRAIN_CONFIG) as file:
     params = yaml.load(file, Loader = yaml.FullLoader)
@@ -31,7 +31,7 @@ def main():
 
     if (rad_id_lst == []) or (classes_name_lst == []):
         return
-    df = pd.read_csv(os.path.join(params["ANNOTATION_FULL_FILE"]))
+    df = pd.read_csv(os.path.join(params["ANNOTATIONS_POSITIVE"]))
     img_ids_full = df["image_file"].unique().tolist()
     full_annotations = df.shape[0]
     full_images = len(img_ids_full)
@@ -49,6 +49,7 @@ def main():
             st.write("Please enter image's file name")
         else:
             df = df[df["image_file"] == img_file_name]
+            print(df)
             st.dataframe(df)
             mode_file_name(df, img_file_name, params)
 

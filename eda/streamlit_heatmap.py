@@ -10,7 +10,7 @@ import matplotlib.pyplot as plt
 sys.path.insert(1, "../src")
 from utils_eda import *
 
-FILE_TRAIN_CONFIG = os.path.join("..", "config", "streamlit_eda.yaml")
+FILE_TRAIN_CONFIG = os.path.join("..", "config", "eda_non_aug.yaml")
 RAD_LST = [f"R{i}" for i in range(1, 18)]
 with open(FILE_TRAIN_CONFIG) as file:
     params = yaml.load(file, Loader = yaml.FullLoader)
@@ -23,7 +23,7 @@ def main():
     rad_id_lst = st.sidebar.multiselect("Choose Radiologist ID, R1-7 just diagnose the negative classes", options = options)
     if rad_id_lst == []:
         return
-    df = pd.read_csv(os.path.join(params["ANNOTATION_STANDARD_ADD_FILE"]))
+    df = pd.read_csv(os.path.join(params["ANNOTATIONS_PREPROCESS_BEFORE_WBF"]))
     img_ids_full = df["image_file"].unique().tolist()
     full_annotations = df.shape[0]
     full_images = len(img_ids_full)
@@ -57,7 +57,6 @@ def main():
             globals()[f"col_{col+1}"].write(f"**Number of bboxes**: {num_bboxes}")
             globals()[f"col_{col+1}"].write(f"**Mean of bboxes area norm**: {mean_bboxes_area_norm}")
             globals()[f"col_{col+1}"].image(img)
-
     shutil.rmtree("./outputs")
         
 if __name__ == "__main__":

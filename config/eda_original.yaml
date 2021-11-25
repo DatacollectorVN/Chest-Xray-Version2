@@ -1,0 +1,29 @@
+IMG_DIR: "../CHEST-XRAY/original/train/train/"
+ANNOTATIONS: "../CHEST-XRAY/original/train_downsampled.csv"
+ANNOTATIONS_POSITIVE : "../CHEST-XRAY/original/chest_xray_positive_full_labels.csv"
+CLASSES_NAME : ["Aortic enlargement", "Atelectasis", "Calcification", "Cardiomegaly", 
+                "Consolidation", "ILD", "Infiltration", "Lung Opacity", "Nodule/Mass",
+                "Other lesion", "Pleural effusion", "Pleural thickening", "Pneumothorax", 
+                "Pulmonary fibrosis"]
+HEATMAP_SIZE : [500, 400]
+COLOR : [[59, 238, 119], [222, 21, 229], [94, 49, 164], [206, 221, 133], [117, 75, 3],
+         [210, 224, 119], [211, 176, 166], [63, 7, 197], [102, 65, 77], [194, 134, 175],
+         [209, 219, 50], [255, 44, 47], [89, 125, 149], [110, 27, 100]]
+IOU_THR_NMS : 0.4
+IOU_THR_WBF : 0.4
+SKIP_BOX_THR_WBF : 0.21
+THICKNESS : 5
+INFO_DESCRIPTION : "Chest-Xray-Standard-Add"
+INFO_URL : "https://github.com/DatacollectorVN/Chest-Xray-Version2"
+INFO_VERSION : "2.0"
+INFO_YEAR : 2021
+INFO_CONTRIBUTOR : "Kos Nhan"
+LIN_URL : "https://vinbigdata.org/en/"
+LIN_ID : 0
+LIN_NAME : "VinBigData"
+IMGS_LIN : 0
+IMGS_COCO_URL : ""
+IMG_DATE_CAPTURED : "2021"
+IMG_FLICKR_URL : ""
+VAL_RATIO : 0.2
+SEED : 42

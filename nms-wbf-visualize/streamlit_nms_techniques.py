@@ -6,7 +6,7 @@ import sys
 sys.path.insert(1, "../src")
 from utils_eda import *
 
-FILE_TRAIN_CONFIG = os.path.join("..", "config", "streamlit_eda.yaml")
+FILE_TRAIN_CONFIG = os.path.join("..", "config", "eda_non_aug.yaml")
 with open(FILE_TRAIN_CONFIG) as file:
         params = yaml.load(file, Loader = yaml.FullLoader)
 
@@ -28,7 +28,7 @@ def main():
     stop = stop_index.number_input("None", min_value = 0, value = 1)
     if (technique == "NONE") or (classes_name_lst == []):
         return 
-    df = pd.read_csv(os.path.join(params["ANNOTATION_STANDARD_ADD_FILE"]))
+    df = pd.read_csv(os.path.join(params["ANNOTATIONS_PREPROCESS_BEFORE_WBF"]))
     if "ALL" not in classes_name_lst:
         df = filter_classes_name(df, classes_name_lst = classes_name_lst)
     img_ids = df["image_file"].unique().tolist()

@@ -36,8 +36,8 @@ def setup_config_train(params):
     cfg.SOLVER.STEPS = (params["STEPS_MIN"], params["STEPS_MAX"])
     cfg.SOLVER.GAMMA = params["GAMMA"]
     cfg.SOLVER.LR_SCHEDULER_NAME = params["LR_SCHEDULER_NAME"]
-    cfg.INPUT.RANDOM_FLIP = "none"
-    cfg.TEST.EVAL_PERIOD = params["EVAL_PERIOD"]
+    cfg.INPUT.RANDOM_FLIP = params["RANDOM_FLIP"]
+    #cfg.TEST.EVAL_PERIOD = params["EVAL_PERIOD"]
     return cfg
 
 def main():

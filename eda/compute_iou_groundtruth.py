@@ -7,13 +7,13 @@ from tqdm import tqdm
 sys.path.insert(1, "../src")
 from utils_eda import *
 
-FILE_TRAIN_CONFIG = os.path.join("..", "config", "streamlit_eda.yaml")
+FILE_TRAIN_CONFIG = os.path.join("..", "config", "eda_non_aug.yaml")
 RAD_LST = [f"R{i}" for i in range(1, 18)]
 with open(FILE_TRAIN_CONFIG) as file:
     params = yaml.load(file, Loader = yaml.FullLoader)
 
 def main():
-    df = pd.read_csv(os.path.join(params["ANNOTATION_STANDARD_ADD_FILE"]))
+    df = pd.read_csv(os.path.join(params["ANNOTATIONS_PREPROCESS_BEFORE_WBF"]))
     for class_name in params["CLASSES_NAME"]:
         df_sub = df[df["class_name"] == class_name]
         img_ids = df_sub["image_file"].unique().tolist()

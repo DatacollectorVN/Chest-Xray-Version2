@@ -9,7 +9,7 @@ import sys
 sys.path.insert(1, "../src")
 from utils_eda import *
 
-FILE_TRAIN_CONFIG = os.path.join("..", "config", "streamlit_eda.yaml")
+FILE_TRAIN_CONFIG = os.path.join("..", "config", "eda_5_classes.yaml")
 with open(FILE_TRAIN_CONFIG) as file:
     params = yaml.load(file, Loader = yaml.FullLoader)
 
@@ -37,8 +37,8 @@ def main():
                           "name" : class_name,
                          }
         categories.append(category_dict)
-    print(params["ANNOTATION_WBF_TRAIN_FILE"])
-    df = pd.read_csv(params["ANNOTATION_WBF_TRAIN_FILE"])
+    print(params["ANNOTATIONS_VAL"])
+    df = pd.read_csv(params["ANNOTATIONS_VAL"])
     img_ids = df["image_file"].unique().tolist()
     imgs_list = [] # list(dict())
     annotations_list = [] # list(dict())
@@ -86,7 +86,7 @@ def main():
                  "images" : imgs_list,
                  "annotations" : annotations_list
                 }
-    with open(params["ANNOTATION_WBF_TRAIN_JSON_FILE"], 'w') as file:
+    with open(params["ANNOTATIONS_VAL_JSON"], 'w') as file:
         json.dump(json_file, file)
     
 if __name__ == "__main__":
