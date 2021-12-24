@@ -23,9 +23,10 @@ def setup_config_train(params):
     cfg.merge_from_file(model_zoo.get_config_file(params["MODEL"]))
     cfg.MODEL.WEIGHTS = model_zoo.get_checkpoint_url(params["MODEL"])
     cfg.MODEL.ROI_HEADS.BATCH_SIZE_PER_IMAGE = params["BATCH_SIZE_PER_IMAGE"] 
-    cfg.MODEL.ROI_HEADS.NUM_CLASSES = params["NUM_CLASSES"] 
     if "retina" in params["MODEL"]:
         cfg.MODEL.RETINANET.NUM_CLASSES = params["NUM_CLASSES"]
+    else:
+        cfg.MODEL.ROI_HEADS.NUM_CLASSES = params["NUM_CLASSES"]
     cfg.DATASETS.TRAIN = (params["NAME_REGISTER"] + "train", )
     cfg.DATASETS.TEST = (params["NAME_REGISTER"] + "val", )
     cfg.DATALOADER.NUM_WORKERS = params["NUM_WORKERS"]
@@ -37,7 +38,6 @@ def setup_config_train(params):
     cfg.SOLVER.GAMMA = params["GAMMA"]
     cfg.SOLVER.LR_SCHEDULER_NAME = params["LR_SCHEDULER_NAME"]
     cfg.INPUT.RANDOM_FLIP = params["RANDOM_FLIP"]
-    #cfg.TEST.EVAL_PERIOD = params["EVAL_PERIOD"]
     return cfg
 
 def main():
