@@ -5,11 +5,10 @@ import torch
 import sys
 from detectron2.data.datasets import register_coco_instances
 from detectron2.evaluation import COCOEvaluator, inference_on_dataset
-from detectron2.modeling import build_model
-from detectron2.engine import DefaultTrainer
+from detectron2.engine import DefaultPredictor
 from detectron2.config import get_cfg
 from detectron2 import model_zoo
-from src.custom_trainining_loop import *
+from detectron2.data import build_detection_test_loader
 from detectron2.utils.logger import setup_logger
 setup_logger()
 import logging
@@ -22,33 +21,35 @@ with open(FILE_TRAIN_CONFIG) as file:
 def setup_config_eval(params):
     cfg = get_cfg()
     cfg.merge_from_file(model_zoo.get_config_file(params["MODEL"]))
-    cfg.MODEL.WEIGHTS = os.path.join(cfg.OUTPUT_DIR, params["TRANSFERLEARNING"])
-    cfg.MODEL.ROI_HEADS.SCORE_THRESH_TEST = params["SCORE_THRESH_TEST"]
-    cfg.MODEL.ROI_HEADS.NUM_CLASSES = params["NUM_CLASSES"] 
+    cfg.MODEL.WEIGHTS = os.path.join(cfg.OUTPUT_DIR, params["TRANSFER_LEARNING"])
+     
     if "retina" in params["MODEL"]:
+        cfg.MODEL.RETINANET.SCORE_THRESH_TEST = params["SCORE_THR"]
         cfg.MODEL.RETINANET.NUM_CLASSES = params["NUM_CLASSES"]
+        cfg.MODEL.RETINANET.NMS_THRESH_TEST = params["NMS_THR"]
+    else:
+        cfg.MODEL.ROI_HEADS.SCORE_THRESH_TEST = params["SCORE_THR"]
+        cfg.MODEL.ROI_HEADS.NUM_CLASSES = params["NUM_CLASSES"]
+        cfg.MODEL.ROI_HEADS.NMS_THRESH_TEST = params["NMS_THR"]
+    
     cfg.DATASETS.TRAIN = (params["NAME_REGISTER"] + "train", )
     cfg.DATASETS.TEST = (params["NAME_REGISTER"] + "val", )
     cfg.DATALOADER.NUM_WORKERS = params["NUM_WORKERS"]
+    cfg.INPUT.RANDOM_FLIP = params["RANDOM_FLIP"]
+
     return cfg
 
 def main():
-    register_coco_instances(params["NAME_REGISTER"] + "train", {}, 
-                            params["ANNOTATION_TRAIN_JSON_FILE"], params["IMG_DIR"])
     register_coco_instances(params["NAME_REGISTER"] + "val", {}, 
                             params["ANNOTATION_VAL_JSON_FILE"], params["IMG_DIR"])
     cfg = setup_config_eval(params)
+    print(cfg.INPUT.RANDOM_FLIP)
     logger.info(f"Use model {cfg.MODEL.WEIGHTS}")
     os.makedirs(cfg.OUTPUT_DIR, exist_ok = True)
-    ''' ERROR: mAP = 0 for all classes
-    model = build_model(cfg)
-    do_test(cfg, model)
-    '''
-    trainer = DefaultTrainer(cfg)
-    trainer.resume_or_load(True) 
-    evaluator = COCOEvaluator(params["NAME_REGISTER"] + "val", cfg, False, output_dir="./output/")
+    predictor = DefaultPredictor(cfg) 
+    evaluator = COCOEvaluator(params["NAME_REGISTER"] + "val", cfg, False, output_dir = cfg.OUTPUT_DIR)
     test_loader = build_detection_test_loader(cfg, params["NAME_REGISTER"] + "val")
-    inference_on_dataset(trainer.model, test_loader, evaluator)
+    inference_on_dataset(predictor.model, test_loader, evaluator)
     
 if __name__ == "__main__":
     try:

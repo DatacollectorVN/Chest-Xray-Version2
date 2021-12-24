@@ -155,7 +155,7 @@ def nms_wbf(df, img_id, params, technique, iou_thr, skip_box_thr):
     norm_scale = np.hstack([width, height, width, height])
 
     # prepare input data of nms function
-    bboxes_lst = []
+    bboxes_lst = [] 
     scores_lst = []
     classes_id_lst = []
     weights = [] # all weigths is 1, cause all of bounding boxes is labeled by doctor
@@ -177,6 +177,7 @@ def nms_wbf(df, img_id, params, technique, iou_thr, skip_box_thr):
             bboxes_lst.append(bboxes)
             scores_lst.append(scores_)
             weights.append(1)
+            
     if classes_id_lst == []:
         boxes_nms = []
         classes_ids_nms = []
