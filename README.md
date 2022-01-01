@@ -1,5 +1,5 @@
 # Chest-Xray-Version2
-***Status: Ongoing***
+***Status: done training, creating docker and client webserver***
 
 The model detect the abnormalities in chest-Xray image by [Detectron2](https://github.com/facebookresearch/detectron2) - Pytorch.
 
