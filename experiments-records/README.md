@@ -20,7 +20,7 @@ RetinaNet with ResNet50 in FPN backbone (3x) give us the best results in validat
 + GAMMA: 0.1
 + LR_SCHEDULER_NAME: WarmupCosineLR
 
-**Results:**
+**Results (val):**
 + mAP@[0.5:0.95]: 0.11
 + mAP@0.5: 0.21 
 
@@ -32,6 +32,32 @@ Based on the results of 14 classes, we chose 5/14 classes with model can be trai
 + Infiltration
 + Nodule/Mass
 
+**Augmentation:**
 5 classes are imbalance with dominance of Aortic enlargement and Cariomegaly. Therefore we apply agumentation for other 3 classes (horizontal flip + rotation with 90 degree) and padding all images with aspected ratio different 1.
 
 ![plot](src-imgs/5_classes_image_augmentations.png)
+
+Train-val-split: 80/20 (random split)
+**Number of images after augmentation:**
++ Total: (train: , val:)
+
+**Number of annotations after augmentation:**
++ Aortic enlargement: 3071 (train: 2483, val: 588)
++ Cardiomegaly: 2239 (train: 1784, val: 455)
++ ILD: 844 (train: 716, val: 128)
++ Infiltration: 1358 (train: 1174, val: 184)
++ Nodule/Mass: 1761 (train: 1468, val: 293)
+
+**Results (train):**
++ mAP@[0.5:0.95]: 0.313
++ mAP@0.5: 0.538 
+
+**Results (val):**
++ mAP@[0.5:0.95]: 0.305
++ mAP@0.5: 0.535 
+
+See detail in *src-imgs/*
+
+
+
+
