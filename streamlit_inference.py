@@ -22,6 +22,7 @@ with open(FILE_INFER_CONFIG) as file:
 def setup_config_infer(params):
     cfg = get_cfg()
     cfg.merge_from_file(model_zoo.get_config_file(params["MODEL"]))
+    cfg.OUTPUT_DIR = params["OUTPUT_DIR"]
     cfg.MODEL.WEIGHTS = os.path.join(cfg.OUTPUT_DIR, params["TRANSFER_LEARNING"])
     cfg.DATALOADER.NUM_WORKERS = 0
     

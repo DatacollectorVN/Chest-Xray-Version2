@@ -217,3 +217,9 @@ def draw_bbox_infer(img, pred_bboxes, pred_classes_id, pred_scores, classes_name
                     color = (255, 0, 0),
                     thickness = 1, lineType = cv2.LINE_AA)     
     return img_draw
+
+def write_metadata_experiment(params):
+    with open(os.path.join(params["OUTPUT_DIR"], "metadata.txt"), 'w') as f:
+        f.write("TRANSFER,TRANSFER_LEARNING,RESIZE,MODEL,IMS_PER_BATCH,BATCH_SIZE_PER_IMAGE,WARMUP_ITERS,BASE_LR,MAX_ITER,STEPS_MIN,STEPS_MAX,GAMMA,LR_SCHEDULER_NAME,RANDOM_FLIP,EVAL_PERIOD")
+        f.write("\n")
+        f.write(str(params["TRANSFER"]) + "," + params["TRANSFER_LEARNING"] + "," + str(params["RESIZE"]) + "," + params["MODEL"] + "," + str(params["IMS_PER_BATCH"]) + "," + str(params["BATCH_SIZE_PER_IMAGE"]) + "," + str(params["WARMUP_ITERS"]) + "," + str(params["BASE_LR"]) + "," + str(params["MAX_ITER"]) +  "," + str(params["STEPS_MIN"]) + "," + str(params["STEPS_MAX"]) + "," + str(params["GAMMA"]) + "," + params["LR_SCHEDULER_NAME"] + "," + params["RANDOM_FLIP"] + "," + str(params["EVAL_PERIOD"]))

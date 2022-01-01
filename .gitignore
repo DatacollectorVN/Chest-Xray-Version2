@@ -7,3 +7,4 @@ CHEST-XRAY/
 src/__pycache__
 output/
 runs/
+experiment/

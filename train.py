@@ -2,7 +2,7 @@ import os
 import yaml
 import gc
 import torch
-import sys
+from src.utils import write_metadata_experiment
 from detectron2.data.datasets import register_coco_instances
 from detectron2.modeling import build_model
 from detectron2.config import get_cfg
@@ -12,6 +12,7 @@ from detectron2.utils.logger import setup_logger
 setup_logger() # enable the logger. https://github.com/facebookresearch/detectron2/issues/144
 import logging
 logger = logging.getLogger("detectron2")
+import sys
 
 FILE_TRAIN_CONFIG = os.path.join("config", "train.yaml")
 with open(FILE_TRAIN_CONFIG) as file:
@@ -23,10 +24,12 @@ def setup_config_train(params):
     cfg.merge_from_file(model_zoo.get_config_file(params["MODEL"]))
     cfg.MODEL.WEIGHTS = model_zoo.get_checkpoint_url(params["MODEL"])
     cfg.MODEL.ROI_HEADS.BATCH_SIZE_PER_IMAGE = params["BATCH_SIZE_PER_IMAGE"] 
+    
     if "retina" in params["MODEL"]:
         cfg.MODEL.RETINANET.NUM_CLASSES = params["NUM_CLASSES"]
     else:
         cfg.MODEL.ROI_HEADS.NUM_CLASSES = params["NUM_CLASSES"]
+    
     cfg.DATASETS.TRAIN = (params["NAME_REGISTER"] + "train", )
     cfg.DATASETS.TEST = (params["NAME_REGISTER"] + "val", )
     cfg.DATALOADER.NUM_WORKERS = params["NUM_WORKERS"]
@@ -38,6 +41,9 @@ def setup_config_train(params):
     cfg.SOLVER.GAMMA = params["GAMMA"]
     cfg.SOLVER.LR_SCHEDULER_NAME = params["LR_SCHEDULER_NAME"]
     cfg.INPUT.RANDOM_FLIP = params["RANDOM_FLIP"]
+    cfg.OUTPUT_DIR = params["OUTPUT_DIR"]
+    cfg.TEST.EVAL_PERIOD = params["EVAL_PERIOD"]
+    
     return cfg
 
 def main():
@@ -48,7 +54,14 @@ def main():
     cfg = setup_config_train(params)
     os.makedirs(cfg.OUTPUT_DIR, exist_ok = True)
     model = build_model(cfg) 
-    do_train(cfg, model, False)
+    write_metadata_experiment(params)
+    
+    if params["TRANSFER"]:
+        cfg.MODEL.WEIGHTS = params["TRANSFER_LEARNING"]
+        logger.info("Transfer learning model")
+        logger.info(f"Use model {cfg.MODEL.WEIGHTS}")
+        
+    do_train(cfg, model, params["TRANSFER"])
     
 if __name__ == "__main__":
     try:

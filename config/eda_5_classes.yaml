@@ -1,10 +1,10 @@
-IMG_DIR: "../CHEST-XRAY/5-classes/imgs/"
-ANNOTATIONS_FULL: "../CHEST-XRAY/5-classes/chest_xray_positive_wbf.csv"
-ANNOTATIONS_TRAIN: "../CHEST-XRAY/5-classes/chest_xray_positive_wbf_train.csv"
-ANNOTATIONS_TRAIN_JSON : "../CHEST-XRAY/5-classes/chest_xray_positive_wbf_train.json"
-ANNOTATIONS_VAL: "../CHEST-XRAY/5-classes/chest_xray_positive_wbf_val.csv"
-ANNOTATIONS_VAL_JSON : "../CHEST-XRAY/5-classes/chest_xray_positive_wbf_val.json"
-ANNOTATIONS_PREPROCESS_BEFORE_WBF: "../CHEST-XRAY/5-classes/chest_xray_standard_add.csv"
+IMG_DIR: "../../../../mnt/data_lab513/ntnhan/CHEST-XRAY/5-classes/imgs/"
+ANNOTATIONS_FULL: "../../../../mnt/data_lab513/ntnhan/CHEST-XRAY/5-classes/chest_xray_positive_wbf.csv"
+ANNOTATIONS_TRAIN: "../../../../mnt/data_lab513/ntnhan/CHEST-XRAY/5-classes/chest_xray_positive_wbf_train.csv"
+ANNOTATIONS_TRAIN_JSON : "../../../../mnt/data_lab513/ntnhan/CHEST-XRAY/5-classes/chest_xray_positive_wbf_train.json"
+ANNOTATIONS_VAL: "../../../../mnt/data_lab513/ntnhan/CHEST-XRAY/5-classes/chest_xray_positive_wbf_val.csv"
+ANNOTATIONS_VAL_JSON : "../../../../mnt/data_lab513/ntnhan/CHEST-XRAY/5-classes/chest_xray_positive_wbf_val.json"
+ANNOTATIONS_PREPROCESS_BEFORE_WBF: "../../../../mnt/data_lab513/ntnhan/CHEST-XRAY/5-classes/chest_xray_standard_add.csv"
 CLASSES_NAME : ["Aortic enlargement", "Cardiomegaly", "ILD", "Infiltration", "Nodule/Mass"]
 HEATMAP_SIZE : [500, 400]
 COLOR : [[59, 238, 119], [206, 221, 133], [210, 224, 119], [211, 176, 166], [102, 65, 77]]

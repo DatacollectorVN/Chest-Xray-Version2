@@ -1,24 +1,27 @@
-IMG_DIR: "CHEST-XRAY/5-classes/imgs"
-ANNOTATION_STANDARD_ADD_FILE : "CHEST-XRAY/5-classes/chest_xray_positive_wbf.csv"
-ANNOTATION_TRAIN_JSON_FILE : "CHEST-XRAY/5-classes/chest_xray_positive_wbf_train.json"
-ANNOTATION_VAL_JSON_FILE : "CHEST-XRAY/5-classes/chest_xray_positive_wbf_val.json"
+IMG_DIR: "../../../../mnt/data_lab513/ntnhan/CHEST-XRAY/5-classes/imgs"
+ANNOTATION_STANDARD_ADD_FILE : "../../../../mnt/data_lab513/ntnhan/CHEST-XRAY/5-classes/chest_xray_positive_wbf.csv"
+ANNOTATION_TRAIN_JSON_FILE : "../../../../mnt/data_lab513/ntnhan/CHEST-XRAY/5-classes/chest_xray_positive_wbf_train.json"
+ANNOTATION_VAL_JSON_FILE : "../../../../mnt/data_lab513/ntnhan/CHEST-XRAY/5-classes/chest_xray_positive_wbf_val.json"
 CLASSES_NAME : ["Aortic enlargement", "Cardiomegaly", "ILD", "Infiltration", "Nodule/Mass"]
 NUM_CLASSES : 5
 COLOR : [[59, 238, 119], [206, 221, 133], [210, 224, 119], [211, 176, 166], [102, 65, 77]]
 IOU_THR_NMS : 0.5
 THICKNESS : 5
 NAME_REGISTER : "chestxray_"
+OUTPUT_DIR : "./experiment/experiment-5"
 RESIZE : 900
 MODEL : "COCO-Detection/retinanet_R_50_FPN_3x.yaml" # https://github.com/facebookresearch/detectron2/blob/main/detectron2/model_zoo/model_zoo.py
-NUM_WORKERS : 0
+NUM_WORKERS : 4
+TRANSFER : TRUE
+TRANSFER_LEARNING : "./experiment/experiment-4/best_model_map50.pth"
 IMS_PER_BATCH : 1
-WARMUP_ITERS : 100
-BASE_LR : 0.001
-MAX_ITER : 1500
+BATCH_SIZE_PER_IMAGE : 512
+WARMUP_ITERS : 150
+BASE_LR : 0.00005
+MAX_ITER : 2000
 STEPS_MIN : 200
-STEPS_MAX : 1400
+STEPS_MAX : 1500
 GAMMA : 0.2
-EVAL_PERIOD : 40
 LR_SCHEDULER_NAME : "WarmupCosineLR"
-BATCH_SIZE_PER_IMAGE : 64
 RANDOM_FLIP : "none"
+EVAL_PERIOD : 50
