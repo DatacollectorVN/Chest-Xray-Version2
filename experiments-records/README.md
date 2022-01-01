@@ -40,7 +40,7 @@ Based on the results of 14 classes, we chose 5/14 classes with model can be trai
 Train-val-split: 80/20 (random split)
 
 **Number of images after augmentation:**
-+ Total: (train: , val:)
++ Total: 4235 (train: 3472, val: 763)
 
 **Number of annotations after augmentation:**
 + Aortic enlargement: 3071 (train: 2483, val: 588)
