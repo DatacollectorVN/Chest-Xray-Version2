@@ -52,6 +52,10 @@ def main():
     register_coco_instances(params["NAME_REGISTER"] + "val", {}, 
                             params["ANNOTATION_VAL_JSON_FILE"], params["IMG_DIR"])
     cfg = setup_config_train(params)
+    print(cfg.MODEL.FPN.IN_FEATURES)
+    print(cfg.MODEL.FPN.OUT_CHANNELS)
+    print(cfg.MODEL.ROI_HEADS.IN_FEATURES)
+    sys.exit()
     os.makedirs(cfg.OUTPUT_DIR, exist_ok = True)
     model = build_model(cfg) 
     write_metadata_experiment(params)

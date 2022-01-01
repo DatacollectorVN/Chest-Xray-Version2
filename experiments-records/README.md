@@ -6,7 +6,7 @@ After many experiments, we used RetinaNet and FasterR-CNN with FPN backbone, we 
 + MODEL.ROI_HEADS.IN_FEATURES: ['res4']
 
 ## 14 Classes:
-RetinaNet with ResNet50 in FPN backbone (3x) give us the best results in validation set. 
+RetinaNet with ResNet50 in FPN backbone (3x) give us the best results in validation set after 2000 epochs. 
 
 **Parameters of config:**
 + Augmentations: ResizeShortestEdge(short_edge_length=(640, 672, 704, 736, 768, 800),max_size=1333, sample_style='choice')
@@ -23,3 +23,15 @@ RetinaNet with ResNet50 in FPN backbone (3x) give us the best results in validat
 **Results:**
 + mAP@[0.5:0.95]: 0.11
 + mAP@0.5: 0.21 
+
+## 5 Classes:
+Based on the results of 14 classes, we chose 5/14 classes with model can be trainable.
++ Aortic enlargement
++ Cardiomegaly
++ ILD
++ Infiltration
++ Nodule/Mass
+
+5 classes are imbalance with dominance of Aortic enlargement and Cariomegaly. Therefore we apply agumentation for other 3 classes (horizontal flip + rotation with 90 degree) and padding all images with aspected ratio different 1.
+
+![plot](src-imgs/5_classes_image_augmentations.png)
