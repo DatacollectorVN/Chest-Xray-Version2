@@ -80,7 +80,7 @@ def do_test(cfg, model):
     for dataset_name in cfg.DATASETS.TEST:
         data_loader = build_detection_test_loader(cfg, dataset_name) # return torch.DataLoader
         evaluator = get_evaluator(
-            cfg, dataset_name, os.path.join(cfg.OUTPUT_DIR, "inference", dataset_name)
+            cfg, dataset_name, os.path.join(cfg.OUTPUT_DIR, "inference-val", dataset_name)
         )
         results_i = inference_on_dataset(model, data_loader, evaluator)
         mAP50_lst.append(results_i["bbox"]["AP50"]) 
