@@ -3,7 +3,8 @@ After many experiments, we used RetinaNet and FasterR-CNN with FPN backbone, we 
 
 **Best parameters of backbone:**
 + MODEL.FPN.OUT_CHANNELS: 256
-+ MODEL.ROI_HEADS.IN_FEATURES: ['res4']
++ MODEL.FPN.IN_FEATURES: ['res3', 'res4', 'res5']
++ MODEL.FPN.FUSE_TYPE: sum
 
 ## 14 Classes:
 RetinaNet with ResNet50 in FPN backbone (3x) give us the best results in validation set after 2000 epochs. 
