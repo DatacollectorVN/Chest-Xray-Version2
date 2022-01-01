@@ -30,10 +30,12 @@ def setup_config_infer(params):
         cfg.MODEL.RETINANET.SCORE_THRESH_TEST = params["SCORE_THR"]
         cfg.MODEL.RETINANET.NUM_CLASSES = params["NUM_CLASSES"]
         cfg.MODEL.RETINANET.NMS_THRESH_TEST = params["NMS_THR"]
+        cfg.MODEL.RETINANET.IOU_THRESHOLDS = params["RETINANET_IOU_THRESHOLDS"]
     else:
         cfg.MODEL.ROI_HEADS.SCORE_THRESH_TEST = params["SCORE_THR"]
         cfg.MODEL.ROI_HEADS.NUM_CLASSES = params["NUM_CLASSES"]
         cfg.MODEL.ROI_HEADS.NMS_THRESH_TEST = params["NMS_THR"]
+        cfg.MODEL.ROI_HEADS.IOU_THRESHOLDS = params["ROI_HEADS_IOU_THRESHOLDS"]
 
     return cfg
 

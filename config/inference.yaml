@@ -9,11 +9,13 @@ MODEL : "COCO-Detection/retinanet_R_50_FPN_3x.yaml"
 TRANSFER_LEARNING : "best_model_map50.pth"
 NAME_REGISTER : "chestxray_"
 RANDOM_FLIP : "none"
-OUTPUT_DIR : "./experiment/experiment-5"
+OUTPUT_DIR : "./models"
 SCORE_THR_VAL : 0.05
 SCORE_THR : 0.5
 NMS_THR_VAL : 0.5
 NMS_THR : 0.5
+ROI_HEADS_IOU_THRESHOLDS : 0.5
+RETINANET_IOU_THRESHOLDS : [0.4, 0.5]
 NUM_WORKERS : 4
 IMS_PER_BATCH : 1
 BATCH_SIZE_PER_IMAGE : 512

@@ -38,6 +38,7 @@ Based on the results of 14 classes, we chose 5/14 classes with model can be trai
 ![plot](src-imgs/5_classes_image_augmentations.png)
 
 Train-val-split: 80/20 (random split)
+
 **Number of images after augmentation:**
 + Total: (train: , val:)
 
@@ -47,6 +48,8 @@ Train-val-split: 80/20 (random split)
 + ILD: 844 (train: 716, val: 128)
 + Infiltration: 1358 (train: 1174, val: 184)
 + Nodule/Mass: 1761 (train: 1468, val: 293)
+
+After 5000 epochs of training with Parameters of config the same in 14 classes (just changed the solver to control the learning rate schedule techquies)
 
 **Results (train):**
 + mAP@[0.5:0.95]: 0.313

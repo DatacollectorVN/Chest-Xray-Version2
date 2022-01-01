@@ -28,14 +28,26 @@ You can run file streamlit_.py for exploring the dataset in eda/ or nms-wbf-visu
   
 *Note: Need to configure config/streamlit_eda.yaml file.*
 
+## DOWNLOAD PRETRAIN MODEL:
+You can download our model with [5 classes](https://github.com/DatacollectorVN/Chest-Xray-Version2/blob/master/experiments-records/README.md)
+
+6. Download pretrain model with best mAP50 after 5000 epochs.
+`bash python experiments-records/download_5_classes_model.py`
+
 ## FOR TRAINING
 ```bash 
 python train.py
 ```
-You can configure traininig in config/train.yaml.
+You need configure traininig in config/train.yaml.
 
 ## FOR EVALUATING
 ```bash
 python eval.py
 ```
-You can configure evaluating in config/inference.yaml.
+You need configure evaluating in config/inference.yaml.
+
+### DEPLOY WEBSITE APPLICATION
+```bash
+streamlit run streamlit_inference.py
+```
+You need configure evaluating in config/inference.yaml.

@@ -30,17 +30,18 @@ def setup_config_eval(params):
         cfg.MODEL.RETINANET.SCORE_THRESH_TEST = params["SCORE_THR_VAL"]
         cfg.MODEL.RETINANET.NUM_CLASSES = params["NUM_CLASSES"]
         cfg.MODEL.RETINANET.NMS_THRESH_TEST = params["NMS_THR_VAL"]
+        cfg.MODEL.RETINANET.IOU_THRESHOLDS = params["RETINANET_IOU_THRESHOLDS"]
     else:
         cfg.MODEL.ROI_HEADS.SCORE_THRESH_TEST = params["SCORE_THR_VAL"]
         cfg.MODEL.ROI_HEADS.NUM_CLASSES = params["NUM_CLASSES"]
         cfg.MODEL.ROI_HEADS.NMS_THRESH_TEST = params["NMS_THR_VAL"]
+        cfg.MODEL.ROI_HEADS.IOU_THRESHOLDS = params["ROI_HEADS_IOU_THRESHOLDS"]
     
     cfg.DATASETS.TRAIN = (params["NAME_REGISTER"] + "train", )
     cfg.DATASETS.TEST = (params["NAME_REGISTER"] + "val", )
     cfg.INPUT.RANDOM_FLIP = params["RANDOM_FLIP"]
     cfg.MODEL.ROI_HEADS.BATCH_SIZE_PER_IMAGE = params["BATCH_SIZE_PER_IMAGE"] 
     cfg.DATALOADER.NUM_WORKERS = params["NUM_WORKERS"]
-    cfg.SOLVER.IMS_PER_BATCH = params["IMS_PER_BATCH"]
     cfg.SOLVER.IMS_PER_BATCH = params["IMS_PER_BATCH"]
     
     return cfg
