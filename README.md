@@ -22,7 +22,9 @@ See [installation instructions](https://detectron2.readthedocs.io/en/latest/tuto
 See [the document](https://docs.google.com/presentation/d/1oXhtmHP9GB1MmArHH-gxWWOc9mIvz-0N6M3GBCcqx0U/edit?usp=sharing) for understanding how we process the chest-Xray dataset from [VinBigdata](https://www.kaggle.com/c/vinbigdata-chest-xray-abnormalities-detection/overview).
 
 5. Download the standard and additional data after processing.
-`bash download_data_standard_add.sh`
+```bash
+bash download_data_standard_add.sh
+```
 
 You can run file streamlit_.py for exploring the dataset in eda/ or nms-wbf-visualize/ .
   
@@ -32,7 +34,9 @@ You can run file streamlit_.py for exploring the dataset in eda/ or nms-wbf-visu
 You can download our model with [5 classes](https://github.com/DatacollectorVN/Chest-Xray-Version2/blob/master/experiments-records/README.md)
 
 6. Download pretrain model with best mAP50 after 5000 epochs.
-`bash python experiments-records/download_5_classes_model.py`
+```bash
+python experiments-records/download_5_classes_model.py
+```
 
 ## FOR TRAINING
 ```bash 
