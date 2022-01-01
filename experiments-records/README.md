@@ -61,6 +61,10 @@ After 5000 epochs of training with Parameters of config the same in 14 classes (
 
 See detail in *src-imgs/*
 
+**Inference with UI:**
+
+![plot](src-imgs/5_classes_inference.png)
+
 
 
 
