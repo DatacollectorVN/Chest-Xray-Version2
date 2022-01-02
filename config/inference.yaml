@@ -4,9 +4,9 @@ ANNOTATION_TRAIN_JSON_FILE : "../../../../mnt/data_lab513/ntnhan/CHEST-XRAY/5-cl
 ANNOTATION_VAL_JSON_FILE : "../../../../mnt/data_lab513/ntnhan/CHEST-XRAY/5-classes/chest_xray_positive_wbf_val.json"
 CLASSES_NAME : ["Aortic enlargement", "Cardiomegaly", "ILD", "Infiltration", "Nodule/Mass"]
 NUM_CLASSES : 5
-COLOR : [[59, 238, 119], [206, 221, 133], [210, 224, 119], [211, 176, 166], [102, 65, 77]]
-MODEL : "COCO-Detection/retinanet_R_50_FPN_3x.yaml"
-TRANSFER_LEARNING : "best_model_map50.pth"
+COLOR : [[59, 238, 119], [206, 221, 133], [0, 0, 255], [211, 176, 166], [102, 65, 77]]
+MODEL : "COCO-Detection/retinanet_R_101_FPN_3x.yaml"
+TRANSFER_LEARNING : "best_model_map50_res101.pth"
 NAME_REGISTER : "chestxray_"
 RANDOM_FLIP : "none"
 OUTPUT_DIR : "./models"

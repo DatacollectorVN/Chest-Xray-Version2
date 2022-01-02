@@ -53,12 +53,12 @@ Train-val-split: 80/20 (random split)
 After 5000 epochs of training with Parameters of config the same in 14 classes (just changed the solver to control the learning rate schedule techquies)
 
 **Results (train):**
-+ mAP@[0.5:0.95]: 0.313
-+ mAP@0.5: 0.538 
++ mAP@[0.5:0.95]: 0.335
++ mAP@0.5: 0.57
 
 **Results (val):**
-+ mAP@[0.5:0.95]: 0.305
-+ mAP@0.5: 0.535 
++ mAP@[0.5:0.95]: 0.319
++ mAP@0.5: 0.549
 
 See detail in *src-imgs/*
 

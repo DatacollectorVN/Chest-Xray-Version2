@@ -4,7 +4,7 @@ ANNOTATION_TRAIN_JSON_FILE : "../../../../mnt/data_lab513/ntnhan/CHEST-XRAY/5-cl
 ANNOTATION_VAL_JSON_FILE : "../../../../mnt/data_lab513/ntnhan/CHEST-XRAY/5-classes/chest_xray_positive_wbf_val.json"
 CLASSES_NAME : ["Aortic enlargement", "Cardiomegaly", "ILD", "Infiltration", "Nodule/Mass"]
 NUM_CLASSES : 5
-COLOR : [[59, 238, 119], [206, 221, 133], [210, 224, 119], [211, 176, 166], [102, 65, 77]]
+COLOR : [[59, 238, 119], [206, 221, 133], [0, 0, 255], [211, 176, 166], [102, 65, 77]]
 IOU_THR_NMS : 0.5
 THICKNESS : 5
 NAME_REGISTER : "chestxray_"
