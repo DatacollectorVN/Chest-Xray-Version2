@@ -12,14 +12,14 @@ URL: [click-here](https://share.streamlit.io/datacollectorvn/chest-xray-version2
 #### 1. Qualitiy and quantity trade-off:
 
 **If you select high value of Confidence Score Threshold**, the output just display the bounding boxes predictions with high accuracy. 
-![plot](src-imgs/high_score_thr.png){:height="50%" width="50%"}
+![plot](src-imgs/high_score_thr.png)
 
 **If you select low value of Confidence Score Threshold**, the output displays many the bounding boxes predictions.
-![plot](src-imgs/low_score_thr.png){:height="50%" width="50%"}
+![plot](src-imgs/low_score_thr.png)
 
 #### 2. Eliminations of overlapping prediction:
 **If you select high value IOU NMS Threshold**, the output display many overlapping bounding boxes predictions with the same class.
-![plot](src-imgs/high_iou_thr.png){:height="50%" width="50%"}
+![plot](src-imgs/high_iou_thr.png)
 
 **If you select low value IOU NMS Threshold**, the output only display the bouding boxes predictions with high confidence score with the same classes.
-![plot](src-ims/low_iou_thr.png){:height="50%" width="50%"}
+![plot](src-imgs/low_iou_thr.png)
