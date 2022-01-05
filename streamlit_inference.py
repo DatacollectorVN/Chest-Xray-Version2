@@ -43,7 +43,7 @@ def setup_config_infer(params):
 
 def main():
     # UI of website
-    st.header("**CHEST X-RAY VERSION2 PROBLEM FROM RADIOLOGIST**")
+    st.header("**CHEST X-RAY VERSION2 PROBLEM**")
     st.write("by Kos Nhan")
     file = st.sidebar.file_uploader('Upload img file (JPG/PNG format)')
     params["SCORE_THR"] = st.sidebar.number_input("Confidence Score Threshold", min_value = 0.0, max_value = 11.0, format = "%f", value = 0.5)
