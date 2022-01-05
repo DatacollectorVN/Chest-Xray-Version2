@@ -1,5 +1,9 @@
 # Model-Control-Instruction-Chest-Xray-Version2
 
+Performance of [5-classes](https://github.com/DatacollectorVN/Chest-Xray-Version2/tree/master/experiments-records) model.
+
+[Repo](https://github.com/DatacollectorVN/Chest-Xray-Version2-Deployment) of deployment.
+
 URL: [click-here](https://share.streamlit.io/datacollectorvn/chest-xray-version2-deployment/streamlit_inference.py)
 
 ## User-Interface
