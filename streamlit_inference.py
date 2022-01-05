@@ -1,8 +1,7 @@
 import os
 import yaml
-import json
 from PIL import Image
-import cv2
+import torch
 import numpy as np
 from src.utils import detectron2_prediction, get_outputs_detectron2, draw_bbox_infer
 from detectron2.engine import  DefaultPredictor
@@ -14,10 +13,15 @@ from detectron2.utils.logger import setup_logger
 setup_logger()
 import logging
 logger = logging.getLogger("detectron2")
+import sys
 
 FILE_INFER_CONFIG = os.path.join("config", "inference.yaml")
 with open(FILE_INFER_CONFIG) as file:
     params = yaml.load(file, Loader = yaml.FullLoader)
+
+@st.cache(hash_funcs={torch.nn.parameter.Parameter: lambda _: None})
+def load_model(cfg):
+    return DefaultPredictor(cfg)
 
 def setup_config_infer(params):
     cfg = get_cfg()
@@ -25,7 +29,7 @@ def setup_config_infer(params):
     cfg.OUTPUT_DIR = params["OUTPUT_DIR"]
     cfg.MODEL.WEIGHTS = os.path.join(cfg.OUTPUT_DIR, params["TRANSFER_LEARNING"])
     cfg.DATALOADER.NUM_WORKERS = 0
-    
+    cfg.MODEL.DEVICE = params["DEVICE"]
     if "retina" in params["MODEL"]:
         cfg.MODEL.RETINANET.SCORE_THRESH_TEST = params["SCORE_THR"]
         cfg.MODEL.RETINANET.NUM_CLASSES = params["NUM_CLASSES"]
@@ -49,11 +53,10 @@ def main():
         return
     
     cfg = setup_config_infer(params)
-    model = DefaultPredictor(cfg)
+    model = load_model(cfg)
     img = Image.open(file)
     img = np.array(img.convert("RGB"))
     st.image(img, caption = "Orginal image")
-
     start = time.time()
     outputs = detectron2_prediction(model, img)
     duration = time.time() - start
@@ -64,11 +67,11 @@ def main():
     pred_confidence_scores = np.round(pred_confidence_scores, 2)
     pred_classes = pred_classes.detach().numpy().astype(int)
 
-    img = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
     img_after = draw_bbox_infer(img, pred_bboxes, 
                                 pred_classes, pred_confidence_scores,
                                 params["CLASSES_NAME"], params["COLOR"], 5)
     st.image(img_after, caption = "Image after prediction")
 
 if __name__ == "__main__":
-    main()
+    if os.path.isdir(params["OUTPUT_DIR"]):
+        main()

@@ -6,7 +6,7 @@ import os
 class Cfg(object):
     def __init__(self):
         super(Cfg, self).__init__()
-        self.model_url = ["https://github.com/DatacollectorVN/Chest-Xray-Version2/releases/download/model-2/best_model_map50.pth"]
+        self.model_url = ["https://github.com/DatacollectorVN/Chest-Xray-Version2/releases/download/model/best_model_map50.pth"]
     
     def down_model(self, destination):
         model_url = self.model_url[0]
