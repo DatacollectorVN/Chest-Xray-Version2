@@ -7,7 +7,7 @@ Performance of [5-classes](https://github.com/DatacollectorVN/Chest-Xray-Version
 URL: [click-here](https://share.streamlit.io/datacollectorvn/chest-xray-version2-deployment/streamlit_inference.py)
 
 ## User-Interface
-+ Confidence Score Threshold: The threshold to control number of bounding box predictions of model. The output only display predictions that have confidence score greater than the threshold. You can read my [explaination](https://docs.google.com/presentation/d/15F1puhvjmvTkM-ZSMjRK8IQp54zNqY7Z6h6OYKXTNgY/edit?usp=sharing)
++ Confidence Score Threshold: The threshold to control number of bounding box predictions of model. The output only display predictions that have confidence score greater than the threshold. You can read my [explaination.](https://docs.google.com/presentation/d/15F1puhvjmvTkM-ZSMjRK8IQp54zNqY7Z6h6OYKXTNgY/edit?usp=sharing)
 + IOU NMS Threshold: The Interserction of Union (IOU) in non-maximum suppression ([NMS](https://arxiv.org/pdf/1705.02950.pdf)) algorithm to control the elimination of overlapping bounding box predictions.
 
 ![plot](src-imgs/user_interface.png)
