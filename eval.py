@@ -55,16 +55,16 @@ def main():
     logger.info(f"Use model {cfg.MODEL.WEIGHTS}")
     os.makedirs(cfg.OUTPUT_DIR, exist_ok = True)
     predictor = DefaultPredictor(cfg) # build model and load weight
+    
     if params["CHECK_VAL"]:
         logger.info(f"Evaluation Validation dataset")
         do_test(cfg, predictor.model)
+    
     if params["CHECK_TRAIN"]:
         logger.info(f"Evaluation Train dataset")
         for dataset_name in cfg.DATASETS.TRAIN:
             data_loader = build_detection_test_loader(cfg, dataset_name) # return torch.DataLoader
-            evaluator = get_evaluator(
-                cfg, dataset_name, os.path.join(cfg.OUTPUT_DIR, "inference-train", dataset_name)
-            )
+            evaluator = get_evaluator(cfg, dataset_name, os.path.join(cfg.OUTPUT_DIR, "inference-train", dataset_name))
             inference_on_dataset(predictor.model, data_loader, evaluator)   
     
 if __name__ == "__main__":

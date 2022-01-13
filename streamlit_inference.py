@@ -30,6 +30,7 @@ def setup_config_infer(params):
     cfg.MODEL.WEIGHTS = os.path.join(cfg.OUTPUT_DIR, params["TRANSFER_LEARNING"])
     cfg.DATALOADER.NUM_WORKERS = 0
     cfg.MODEL.DEVICE = params["DEVICE"]
+    
     if "retina" in params["MODEL"]:
         cfg.MODEL.RETINANET.SCORE_THRESH_TEST = params["SCORE_THR"]
         cfg.MODEL.RETINANET.NUM_CLASSES = params["NUM_CLASSES"]
@@ -48,6 +49,7 @@ def main():
     file = st.sidebar.file_uploader('Upload img file (JPG/PNG format)')
     params["SCORE_THR"] = st.sidebar.number_input("Confidence Score Threshold", min_value = 0.0, max_value = 11.0, format = "%f", value = 0.5)
     params["NMS_THR"] = st.sidebar.number_input("IOU NMS Threshold", min_value = 0.0, max_value = 1.0, format = "%f", value = 0.5, )
+    
     if not file:
         st.write("Please upload your image (png, jpg)")
         return
@@ -66,7 +68,6 @@ def main():
     pred_confidence_scores = pred_confidence_scores.detach().numpy()
     pred_confidence_scores = np.round(pred_confidence_scores, 2)
     pred_classes = pred_classes.detach().numpy().astype(int)
-
     img_after = draw_bbox_infer(img, pred_bboxes, 
                                 pred_classes, pred_confidence_scores,
                                 params["CLASSES_NAME"], params["COLOR"], 5)
